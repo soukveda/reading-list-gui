@@ -3,12 +3,12 @@ Title, Author
 Year, Reading Status
 
 User can:
-View all records
-Search an entry
-Add entry
-Update entry
-Delete
-Close
+- View all records
+- Search an entry
+- Add entry
+- Update entry
+- Delete
+- Close
 
 Creating .exe python:
 pyinstaller --onefile --window frontend.py
