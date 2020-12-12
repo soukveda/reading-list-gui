@@ -1,30 +1,34 @@
 from tkinter import *
-import backend
+from backend import Database
+
+
+# Creating a Database object
+database=Database("books.db")
 
 """
-Calling backend.view() function
+Calling database.view() function
 """
 def view_command():
     # Clear any data from the listbox (if any)
     list1.delete(0,END)
 
     # View all data
-    for row in backend.view():
+    for row in database.view():
         list1.insert(END,row)
 
 """
-Calling backend.search(title,author,year,isbn) function
+Calling database.search(title,author,year,isbn) function
 """
 def search_command():
     list1.delete(0, END)
-    for row in backend.search(title_text.get(), author_text.get(), year_text.get(), stat_text.get()):
+    for row in database.search(title_text.get(), author_text.get(), year_text.get(), stat_text.get()):
         list1.insert(END, row)
 
 """
-Calling backend.insert() function
+Calling database.insert() function
 """
 def add_command():
-    backend.insert(title_text.get(), author_text.get(), year_text.get(), stat_text.get())
+    database.insert(title_text.get(), author_text.get(), year_text.get(), stat_text.get())
     list1.delete(0, END)
     list1.insert(END, (title_text.get(), author_text.get(), year_text.get(), stat_text.get()))
 
@@ -33,25 +37,7 @@ Retrieve the selected row (tuple)
 """
 def get_selected_row(event):
     global selected_tuple
-    
-    # if  list1.curselection() != ():
-    #     # store the index of the selected row
-    #     index=list1.curselection()[0]
 
-    #     # Store the value of the row, given it's index
-    #     selected_tuple=list1.get(index)
-        
-    #     # Insert values of selected tuple within the entry widgets
-    #     e1.delete(0,END)
-    #     e1.insert(END,selected_tuple[1])
-
-    #     e2.delete(0,END)
-    #     e2.insert(END,selected_tuple[2])
-
-    #     e3.delete(0,END)
-    #     e3.insert(END,selected_tuple[3])
-        
-    #     e4.delete(0,END)
     try:
         # store the index of the selected row
         index=list1.curselection()[0]
@@ -78,7 +64,7 @@ def get_selected_row(event):
 Delete selected row
 """
 def delete_command():
-    backend.delete(selected_tuple[0])
+    database.delete(selected_tuple[0])
     view_command()
 
 """
@@ -86,10 +72,8 @@ Update selected row
 """
 def update_command():
     # update our database with the selected index and entry widget values
-    backend.update(selected_tuple[0], title_text.get(), author_text.get(), year_text.get(), stat_text.get())
+    database.update(selected_tuple[0], title_text.get(), author_text.get(), year_text.get(), stat_text.get())
     view_command()
-    #print(selected_tuple[0],selected_tuple[1],selected_tuple[2],selected_tuple[3],selected_tuple[4])
-
 
 # Instantiate our window
 window=Tk()
@@ -163,7 +147,5 @@ b5.grid(row=6, column=3)
 
 b6=Button(window, text="Close", width=12, command=window.destroy)
 b6.grid(row=7, column=3)
-
-
 
 window.mainloop()
